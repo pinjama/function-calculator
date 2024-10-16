@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Calculator</title>
+</head>
+<body>
+    <h1>Function Calculator</h1>
+    <form id="id_myform" name="myForm">
+        <table>
+            <tr>
+                <td><label for="id_function">Function f(x) return value:</label></td>
+                <td><input type="text" name="function" id="id_function" size="20" autofocus></td>
+            </tr>
+            <tr>
+                <td><label for="id_startX">Start of x range:</label></td>
+                <td><input type="number" name="startX" id="id_startX"></td>
+            </tr>
+            <tr>
+                <td><label for="id_endX">End of x range:</label></td>
+                <td><input type="number" name="endX" id="id_endX"></td>
+            </tr>
+            <tr>
+                <td><label for="id_xStep">x step:</label></td>
+                <td><input type="number" name="xStep" id="id_xStep"></td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="Calculate" onclick="showResults(event)">
+        <hr>
+        <output id="id_result"></output>
+        <hr>
+    </form> 
+    <div style="width: 40%;"><canvas id="id_myChart" ></canvas></div>
+    <script>
+    function showResults(event) {        
+        var xValues = [];
+        var yValues = [];
+
+        let functionX = document.getElementById("id_function").value;
+        var ctx = document.getElementById("id_myChart").getContext("2d");
+        var xminValue = document.getElementById("id_startX").value;
+        var xmaxValue = document.getElementById("id_endX").value;
+        var xStep = document.getElementById("id_xStep").value;
+        functionX = functionX.replace(/sin/ig, "Math.sin");
+        functionX = functionX.replace(/cos/ig, "Math.cos");
+        functionX = functionX.replace(/tan/ig, "Math.tan");
+        functionX = functionX.replace(/pi/ig, "Math.PI");
+        let text = "";
+
+        generateData(functionX, parseInt(xminValue), parseInt(xmaxValue), parseInt(xStep));
+        for (let x = parseInt(xminValue); x <= parseInt(xmaxValue); x += parseInt(xStep)) {
+            try {
+                text += `f(${x}) = ` + eval(functionX) + "<br>";
+            }
+            catch(e) {
+                console.log(e);
+            }
+            };
+        document.getElementById("id_result").innerHTML = text;
+       
+        var myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{ 
+            data: yValues,
+            borderColor: "purple",
+            fill: false
+            }]
+        },
+        options: {
+            legend: {display: false}
+        }
+        });
+
+        function generateData(value, i1, i2, step = 1) {
+            for (let x = i1; x <= i2; x += step) {
+                yValues.push(eval(value));
+                xValues.push(x);
+            };
+        }
+        event.preventDefault();
+    }
+    </script>
+</body>
+</html>
