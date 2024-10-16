@@ -9,3 +9,5 @@ Fields in the form:
 4. Range of values of x
 
 The site draws a graph of the function.
+
+You can try the app from this link: [Function Calculator](https://pinjama.github.io/function-calculator/)
