@@ -6,6 +6,6 @@ Fields in the form:
 1. Function
 2. Minimum value of x
 3. Maximum value of x
-4. range of values of x
+4. Range of values of x
 
 The site draws a graph of the function.
